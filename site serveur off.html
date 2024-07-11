@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Serveur Discord</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ff5e62, #ff9966);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: white;
+            position: relative;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+            max-width: 80%;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff9966;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 2s ease-out;
+        }
+
+        section h2 {
+            font-size: 2rem;
+            margin: 1rem 0;
+        }
+
+        section p {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .discord-link {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #7289da;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            transition: background 0.3s ease;
+            animation: bounce 2s infinite;
+        }
+
+        .discord-link:hover {
+            background: #5b6eae;
+        }
+
+        footer p {
+            margin-top: 2rem;
+            font-size: 1rem;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-15px);
+            }
+            60% {
+                transform: translateY(-7px);
+            }
+        }
+
+        .star {
+            position: absolute;
+            top: -10px;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(white, rgba(255, 255, 255, 0));
+            opacity: 0.7;
+            transform: rotate(45deg);
+            animation: shootingStar 2s linear infinite;
+        }
+
+        @keyframes shootingStar {
+            from {
+                transform: translateY(0) rotate(45deg);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(600px) translateX(-600px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="#" data-page="home">Accueil</a>
+            <a href="#" data-page="server-info">Infos Serveur</a>
+        </nav>
+        
+        <div id="home" class="page active">
+            <header>
+                <h1>Bienvenue sur Mon Serveur Discord ! 🎉</h1>
+            </header>
+            <section class="about">
+                <h2>À propos de nous</h2>
+                <p>Rejoignez notre communauté pour discuter, partager et vous amuser ! Nous avons des salons pour tous les goûts. 😃</p>
+            </section>
+            <section class="join">
+                <h2>Rejoignez-nous</h2>
+                <p>Cliquez sur le lien ci-dessous pour nous rejoindre sur Discord :</p>
+                <a href="https://discord.gg/VRsESWazu9" class="discord-link">Rejoindre notre serveur</a>
+            </section>
+        </div>
+        
+        <div id="server-info" class="page">
+            <section>
+                <h2>Infos Serveur</h2>
+                <p>Nombre de membres : 100</p>
+                <p>Salons de discussion : 76</p>
+                <p>Admins : 1</p>
+                <p>Rôles disponibles : 1</p>
+            </section>
+        </div>
+        
+        <footer>
+            <p>© 2024 Mon Serveur Discord. Tous droits réservés.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const emojis = ['🎉', '😃', '✨', '🎊', '💬'];
+            const header = document.querySelector('header h1');
+            let emojiIndex = 0;
+
+            setInterval(() => {
+                emojiIndex = (emojiIndex + 1) % emojis.length;
+                header.innerHTML = `Bienvenue sur Mon Serveur Discord ! ${emojis[emojiIndex]}`;
+            }, 2000);
+
+            const starContainer = document.createElement('div');
+            starContainer.style.position = 'absolute';
+            starContainer.style.top = 0;
+            starContainer.style.left = 0;
+            starContainer.style.width = '100%';
+            starContainer.style.height = '100%';
+            starContainer.style.overflow = 'hidden';
+            starContainer.style.zIndex = 1;
+
+            document.body.appendChild(starContainer);
+
+            function createStar() {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = `${Math.random() * 100}%`;
+                starContainer.appendChild(star);
+
+                setTimeout(() => {
+                    star.remove();
+                }, 2000);
+            }
+
+            setInterval(createStar, 300);
+
+            const links = document.querySelectorAll('nav a');
+            const pages = document.querySelectorAll('.page');
+
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('data-page');
+                    pages.forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    document.getElementById(pageId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
